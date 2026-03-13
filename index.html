@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cochrane Search and Rescue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Cochrane Search and Rescue Association is a volunteer charity that provides 24/7 professional search and rescue services to Cochrane, Canmore, Kananaskis and surrounding areas." />
+  <style>
+    :root {
+      --blue: #1e3a8a;
+      --blue-soft: #eff3ff;
+      --blue-dark: #020617;
+      --orange: #f97316;
+      --orange-dark: #ea580c;
+      --bg: #f3f4f6;
+      --bg-soft: #f9fafb;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --radius-lg: 18px;
+      --radius: 12px;
+      --max-width: 1200px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: white;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { max-width: 100%; display: block; }
+
+    /* Animations */
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scale-in {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .animate-fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fade-in-up 0.7s ease-out forwards;
+    }
+
+    .animate-fade {
+      opacity: 0;
+      animation: fade-in 0.7s ease-out forwards;
+    }
+
+    .animate-scale {
+      opacity: 0;
+      transform: scale(0.96);
+      animation: scale-in 0.55s ease-out forwards;
+    }
+
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.3s; }
+    .delay-3 { animation-delay: 0.45s; }
+    .delay-4 { animation-delay: 0.6s; }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0.7rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background-image:
+        url("CSARlogo.png?auto=compress&cs=tinysrgb&w=1200&q=80");
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: white;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+	.brand-mark-img {
+	  width: 50px;           /* Adjust this to match your header size */
+	  height: 50px;          /* Keep height/width equal */
+	  border-radius: 50%;    /* Makes the image a circle */
+	  object-fit: cover;     /* Ensures the image doesn't look squished */
+	  display: block;        /* Removes extra bottom spacing */
+	}
+	
+    .brand-mark:hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 16px 35px rgba(15, 23, 42, 0.35);
+    }
+
+    .brand-text-main {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--blue-dark);
+    }
+
+    .brand-text-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .brand-text-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.08rem;
+      width: 0;
+      height: 2px;
+      background: var(--blue);
+      transition: width 0.16s ease;
+    }
+
+    .nav a:hover {
+      color: var(--blue);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease,
+        box-shadow 0.1s ease, border-color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+      box-shadow: 0 14px 35px rgba(249, 115, 22, 0.45);
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 18px 45px rgba(249, 115, 22, 0.6);
+    }
+
+    .btn-outline {
+      background: white;
+      color: var(--blue);
+      border-color: #d1d5db;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--blue);
+      background: #eff6ff;
+      transform: translateY(-1px);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 18px;
+      height: 2px;
+      background: var(--text);
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    main { flex: 1; }
+
+    section {
+      padding: 3.5rem 1.5rem;
+    }
+
+    .section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: var(--blue-dark);
+    }
+
+    .section-subtitle {
+      max-width: 36rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      color: white;
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+      background: radial-gradient(circle at top left, #1d4ed8 0, #020617 55%);
+      overflow: hidden;
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.60), rgba(15, 23, 42, 0.60)),
+        url("https://images.pexels.com/photos/9410628/pexels-photo-9410628.jpeg?auto=compress&cs=tinysrgb&w=1800&q=80");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.95;
+      transform: scale(1.03);
+      filter: saturate(1.1);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bfdbfe;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 3.2vw, 2.9rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 0.8rem;
+      max-width: 20ch;
+    }
+
+    .hero-text {
+      font-size: 0.98rem;
+      color: #e5e7eb;
+      max-width: 36ch;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-actions .btn-outline {
+      background: transparent;
+      color: white;
+      border-color: rgba(148, 163, 184, 0.8);
+    }
+
+    .hero-actions .btn-outline:hover {
+      background: rgba(15, 23, 42, 0.5);
+      border-color: white;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.3rem;
+      align-items: center;
+      font-size: 0.82rem;
+      color: #cbd5f5;
+    }
+
+    .hero-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 0.15rem 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+    }
+
+    .hero-stats-shell {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .hero-stats-header {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .hero-stat-card {
+      background: rgba(15, 23, 42, 0.92);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(16px);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .hero-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 55px rgba(15, 23, 42, 0.9);
+      border-color: rgba(191, 219, 254, 0.9);
+    }
+
+    .hero-stat-label {
+      font-size: 0.76rem;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-stat-value {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 0.1rem;
+      color: white;
+    }
+
+    .hero-stat-desc {
+      font-size: 0.82rem;
+      color: #e5e7eb;
+    }
+
+    /* How we help */
+    .how {
+      background: white;
+    }
+
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.6rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.3rem;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      border-color: #d1d5db;
+    }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: var(--blue);
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+    }
+
+    .card-body {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .card-link {
+      font-size: 0.86rem;
+      color: var(--blue);
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+
+    .card-link:hover { text-decoration: underline; }
+
+    /* Donate section */
+    .donate {
+      background: var(--bg-soft);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    .donate-panel {
+      background: var(--orange);
+      color: white;
+      border-radius: var(--radius);
+      padding: 1.5rem 1.6rem;
+      box-shadow: 0 18px 40px rgba(249, 115, 22, 0.35);
+    }
+
+    .donate-panel h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .donate-panel p {
+      font-size: 0.9rem;
+    }
+
+    .donate-options {
+      margin: 1rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      padding: 0.3rem 0.75rem;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .donate-note {
+      font-size: 0.8rem;
+      color: #7c2d12;
+      margin-bottom: 0.8rem;
+    }
+
+    /* Volunteer + service */
+    .volunteer {
+      background: white;
+    }
+
+    .volunteer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.1fr);
+      gap: 2.4rem;
+      align-items: flex-start;
+    }
+
+    .volunteer-box {
+      background: #eff6ff;
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.5rem;
+      border: 1px solid #dbeafe;
+    }
+
+    .steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 0.9rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 0.65rem;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .step-index {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid #bfdbfe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--blue);
+      font-weight: 600;
+      margin-top: 0.1rem;
+    }
+
+    .map-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 1.1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.05);
+    }
+
+    .map-media {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      height: 180px;
+      background-image:
+        url("https://upload.wikimedia.org/wikipedia/commons/6/6d/Kananaskis_park_system.png?auto=compress&cs=tinysrgb&w=1200&q=80");
+      background-size: cover;
+      background-position: center;
+      background-color: #e5e7eb;
+      transition: transform 0.25s ease;
+    }
+
+    .map-card:hover .map-media {
+      transform: scale(1.02);
+    }
+
+    .map-caption {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .timeline {
+      border-left: 2px solid #e5e7eb;
+      padding-left: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 0.2rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.25rem;
+      top: 0.2rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: white;
+      border: 2px solid var(--blue);
+    }
+
+    .timeline-year {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    /* News */
+    .news {
+      background: var(--bg-soft);
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .news-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      border-color: #d1d5db;
+    }
+
+    .news-media {
+      height: 150px;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.25s ease;
+    }
+
+    .news-card:hover .news-media {
+      transform: scale(1.04);
+    }
+
+    .news-body {
+      padding: 0.95rem 1.1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+    }
+
+    .news-date {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .news-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+    }
+
+    .news-excerpt {
+      font-size: 0.86rem;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .news-link {
+      font-size: 0.85rem;
+      color: var(--blue);
+      font-weight: 600;
+      margin-top: 0.1rem;
+    }
+
+    .news-link:hover { text-decoration: underline; }
+
+    /* Footer */
+    .site-footer {
+      background: var(--blue-dark);
+      color: #9ca3af;
+      padding: 2.6rem 1.5rem 2.1rem;
+      margin-top: 2.2rem;
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 2.6rem;
+      font-size: 0.9rem;
+    }
+
+    .footer-brand {
+      font-weight: 600;
+      color: white;
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-heading {
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .footer-links,
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .footer-links a:hover { color: #e5e7eb; }
+
+    .footer-bottom {
+      max-width: var(--max-width);
+      margin: 1.8rem auto 0;
+      font-size: 0.78rem;
+      color: #6b7280;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+        gap: 2.2rem;
+      }
+      .card-grid-3,
+      .news-grid,
+      .two-col,
+      .volunteer-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .map-media { height: 220px; }
+      .footer-inner {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .header-inner { padding-inline: 1.1rem; }
+      .nav { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding-top: 3.2rem; padding-bottom: 3rem; }
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        padding-inline: 1.1rem;
+      }
+      .hero-stats {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+      section { padding-inline: 1.1rem; }
+      .footer-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .hero-stats {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .news-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+		<img src="your-logo-file.png" alt="Cochrane Search & Rescue" class="brand-mark-img">
+        <div class="brand-text-wrap">
+          <span class="brand-text-main">Cochrane Search &amp; Rescue</span>
+          <span class="brand-text-sub">Serving Cochrane and nearby communities since 2001.</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#volunteer">Volunteer</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+		<a href="memberpage.html" target="_blank" rel="noopener noreferrer">Member Login</a>
+        <a href="#donate" class="btn btn-primary">Donate</a>
+      </nav>
+      <button class="hamburger" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-media" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="animate-fade-up">
+          <div class="hero-eyebrow">Volunteer Search &amp; Rescue · Alberta Rockies</div>
+          <h1 class="hero-title">On call 24/7 to bring people home safe.</h1>
+          <p class="hero-text">
+            Cochrane Search and Rescue Association is a volunteer charity that supports
+            police and emergency services with professionally trained ground search teams
+            in Cochrane, Canmore, Kananaskis and surrounding areas.
+          </p>
+          <div class="hero-actions">
+            <a href="#donate" class="btn btn-primary">Donate now</a>
+            <a href="#volunteer" class="btn btn-outline">Join the team</a>
+          </div>
+          <div class="hero-meta">
+            <span class="hero-pill">Registered Canadian charity</span>
+            <span>Powered entirely by volunteers, funded by community donations.</span>
+          </div>
+        </div>
+        <aside class="hero-stats-shell animate-scale delay-1">
+          <div class="hero-stats-header">Impact at a glance</div>
+          <div class="hero-stats">
+            <article class="hero-stat-card">
+              <div class="hero-stat-label">Volunteers</div>
+              <div class="hero-stat-value">75+</div>
+              <div class="hero-stat-desc">Trained members ready for callouts year-round.</div>
+            </article>
+            <article class="hero-stat-card">
+              <div class="hero-stat-label">Searches &amp; tasks</div>
+              <div class="hero-stat-value">20–30</div>
+              <div class="hero-stat-desc">Search, rescue, and evidence searches annually.</div>
+            </article>
+            <article class="hero-stat-card">
+              <div class="hero-stat-label">Area served</div>
+              <div class="hero-stat-desc">
+                Town of Cochrane, Town of Canmore, Kananaskis Country and surrounding Alberta Rockies.
+              </div>
+            </article>
+            <article class="hero-stat-card">
+              <div class="hero-stat-label">Since</div>
+              <div class="hero-stat-value">2001</div>
+              <div class="hero-stat-desc">Two decades of volunteer service to our communities.</div>
+            </article>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- How we help -->
+    <section class="how" id="about">
+      <div class="section-inner">
+        <header class="section-header animate-fade-up delay-1">
+          <div class="section-kicker">What we do</div>
+          <h2 class="section-title">Professionally trained volunteers, ready for the call.</h2>
+          <p class="section-subtitle">
+            Our team trains year-round to support the RCMP, municipal agencies and neighbouring SAR teams
+            with safe and effective ground search and rescue operations in all seasons and terrain.
+          </p>
+        </header>
+        <div class="card-grid-3">
+          <article class="card animate-fade-up delay-1">
+            <div class="card-icon">🧭</div>
+            <h3 class="card-title">Search &amp; rescue operations</h3>
+            <p class="card-body">
+              Ground and wilderness searches, urban search, and evidence searches requested by law enforcement.
+            </p>
+            <a href="#" class="card-link">Learn about our operations</a>
+          </article>
+          <article class="card animate-fade-up delay-2" id="training">
+            <div class="card-icon">🎓</div>
+            <h3 class="card-title">Training &amp; preparedness</h3>
+            <p class="card-body">
+              Regular training in navigation, first aid, rope rescue, avalanche awareness and incident command systems.
+            </p>
+            <a href="#" class="card-link">See our training standards</a>
+          </article>
+          <article class="card animate-fade-up delay-3">
+            <div class="card-icon">🤝</div>
+            <h3 class="card-title">Community &amp; prevention</h3>
+            <p class="card-body">
+              Public education, outdoor safety presentations and support at community events across the Cochrane region.
+            </p>
+            <a href="#" class="card-link">How we support the community</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Donate -->
+    <section class="donate" id="donate">
+      <div class="section-inner two-col">
+        <div class="animate-fade-up">
+          <header class="section-header">
+            <div class="section-kicker">Why your gift matters</div>
+            <h2 class="section-title">Your donation keeps volunteers safe and equipped.</h2>
+            <p class="section-subtitle">
+              As a not-for-profit charity, we rely on grants and community donations to fund
+              training, maintain vehicles and purchase specialized equipment for rescues in the mountains and foothills.
+            </p>
+          </header>
+          <p style="font-size:0.95rem; color:var(--muted); margin-bottom:0.8rem;">
+            Every search depends on reliable gear and well-trained people: radios and GPS units,
+            medical kits, avalanche safety equipment, and our mobile command resources.
+          </p>
+          <p style="font-size:0.95rem; color:var(--muted);">
+            Cochrane Search and Rescue Association is a registered Canadian charity
+            (BN <strong>86762 2110 RR0001</strong>). Tax receipts are issued for eligible donations.
+          </p>
+        </div>
+        <aside class="donate-panel animate-scale delay-1">
+          <h3>Donate today</h3>
+          <p>Select a suggested amount or choose your own.</p>
+          <div class="donate-options">
+            <span class="pill">$50 · Personal safety gear</span>
+            <span class="pill">$100 · Training &amp; certifications</span>
+            <span class="pill">$250 · Radios &amp; equipment</span>
+            <span class="pill">$500+ · Vehicles &amp; command</span>
+          </div>
+          <p class="donate-note">
+            Larger gifts can be directed toward priorities like our mobile command centre and major equipment upgrades.
+          </p>
+          <a href="https://www.canadahelps.org/en/charities/cochrane-search-and-rescue-association/" class="btn btn-outline" style="background:white; color:var(--orange); border-color:transparent;">
+            Donate securely via CanadaHelps
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Volunteer + Service area / history -->
+    <section class="volunteer" id="volunteer">
+      <div class="section-inner volunteer-grid">
+        <div class="animate-fade-up">
+          <header class="section-header">
+            <div class="section-kicker">Volunteer</div>
+            <h2 class="section-title">Join a team that trains hard and looks after each other.</h2>
+            <p class="section-subtitle">
+              Members supply their own basic outdoor gear and commit time to meetings, training nights and callouts.
+              In return, you gain new skills, experience and the chance to help people on their worst days.
+            </p>
+          </header>
+          <div class="volunteer-box">
+            <h3 style="font-size:1.02rem; font-weight:600; color:var(--blue-dark);">
+              How to become a member
+            </h3>
+            <ul class="steps">
+              <li class="step">
+                <div class="step-index">1</div>
+                <div>Review our member expectations for availability, training, and fitness.</div>
+              </li>
+              <li class="step">
+                <div class="step-index">2</div>
+                <div>Submit an application and attend an information session with our membership team.</div>
+              </li>
+              <li class="step">
+                <div class="step-index">3</div>
+                <div>Complete initial training and mentoring to become an operational member.</div>
+              </li>
+            </ul>
+            <div style="margin-top:1.2rem; display:flex; gap:0.6rem; flex-wrap:wrap;">
+              <a href="#" class="btn btn-primary">Become a volunteer</a>
+              <a href="#" class="btn btn-outline" style="font-size:0.84rem;">Download member info pack</a>
+            </div>
+          </div>
+        </div>
+        <aside class="map-card animate-fade-up delay-1">
+          <div>
+            <h3 style="font-size:1rem; font-weight:600; color:var(--blue-dark); margin-bottom:0.1rem;">
+              Our service area
+            </h3>
+            <p class="map-caption">
+              We respond primarily in Cochrane, Canmore, Kananaskis and surrounding backcountry,
+              and may assist neighbouring Alberta SAR teams when requested.
+            </p>
+          </div>
+          <div class="map-media" aria-label="Map of Cochrane and Kananaskis region"></div>
+          <div>
+            <h4 style="font-size:0.9rem; font-weight:600; color:var(--blue-dark); margin-bottom:0.3rem;">
+              Our history
+            </h4>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-year">2001</div>
+                <div>CSAR founded to provide trained Ground SAR for the Cochrane region.</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-year">2010s</div>
+                <div>Team grows to ~75 members and expands training in wilderness search, rope rescue and winter operations.</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-year">2020s</div>
+                <div>Increased call volume and new partnerships to support a growing region west of Calgary.</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- News -->
+    <section class="news" id="news">
+      <div class="section-inner">
+        <header class="section-header animate-fade-up">
+          <div class="section-kicker">Updates</div>
+          <h2 class="section-title">Latest news &amp; events.</h2>
+          <p class="section-subtitle">
+            Stories from recent searches, training nights and community events,
+            plus updates on fundraising priorities and equipment projects.
+          </p>
+        </header>
+        <div class="news-grid">
+          <article class="news-card animate-fade-up delay-1">
+            <div class="news-media" style="background-image:url('https://images.pexels.com/photos/30132610/pexels-photo-30132610.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80');"></div>
+            <div class="news-body">
+              <div class="news-date">Feb 24, 2026</div>
+              <h3 class="news-title">Winter search training in Kananaskis.</h3>
+              <p class="news-excerpt">
+                Members spent a full weekend practicing avalanche response, winter navigation and overnight operations in cold conditions.
+              </p>
+              <a href="#" class="news-link">Read training recap</a>
+            </div>
+          </article>
+          <article class="news-card animate-fade-up delay-2">
+            <div class="news-media" style="background-image:url('https://images.pexels.com/photos/7648803/pexels-photo-7648803.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80');"></div>
+            <div class="news-body">
+              <div class="news-date">Jan 18, 2026</div>
+              <h3 class="news-title">Community support for new equipment.</h3>
+              <p class="news-excerpt">
+                Local businesses and donors helped us upgrade radios, GPS units and medical kits used on search operations.
+              </p>
+              <a href="#" class="news-link">See how your gift helps</a>
+            </div>
+          </article>
+          <article class="news-card animate-fade-up delay-3">
+            <div class="news-media" style="background-image:url('https://images.pexels.com/photos/12750083/pexels-photo-12750083.jpeg?auto=compress&cs=tinysrgb&w=1200&q=80');"></div>
+            <div class="news-body">
+              <div class="news-date">Nov 30, 2025</div>
+              <h3 class="news-title">Fundraising for mobile command centre.</h3>
+              <p class="news-excerpt">
+                We have launched a campaign to replace our aging mobile command centre, a critical resource on large searches.
+              </p>
+              <a href="#" class="news-link">View campaign details</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="contact">
+    <div class="footer-inner">
+      <div class="animate-fade-up">
+        <div class="footer-brand">Cochrane Search and Rescue Association</div>
+        <p>
+          A volunteer, not-for-profit charity providing professional ground search and rescue
+          services 24/7 in the Cochrane, Canmore and Kananaskis region of Alberta.
+        </p>
+        <p style="margin-top:0.5rem;">
+          Registered charity number: 86762 2110 RR0001.
+        </p>
+      </div>
+      <div class="animate-fade-up delay-1">
+        <div class="footer-heading">Quick links</div>
+        <div class="footer-links">
+          <a href="#about">About CSAR</a>
+          <a href="#volunteer">Become a member</a>
+          <a href="#donate">Donate</a>
+          <a href="#training">Training &amp; standards</a>
+          <a href="#news">News &amp; updates</a>
+        </div>
+      </div>
+      <div class="animate-fade-up delay-2">
+        <div class="footer-heading">Contact</div>
+        <div class="footer-contact">
+          <span>Cochrane Search and Rescue Association</span>
+          <span>STN MAIN, Cochrane, AB T4C 1B3</span>
+          <span>Email: info@example-sar.org</span>
+          <span>For emergencies, dial 911 and ask for Search and Rescue via RCMP.</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Cochrane Search and Rescue Association.</span>
+      <span>Prototype layout for redesign – not official site.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Simple on-load animation trigger (already using CSS animations with initial state)
+    window.addEventListener("load", () => {
+      document.querySelectorAll(".animate-fade-up, .animate-fade, .animate-scale")
+        .forEach(el => {
+          el.style.willChange = "transform, opacity";
+        });
+    });
+  </script>
+</body>
+</html>
