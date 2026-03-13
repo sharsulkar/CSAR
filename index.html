@@ -104,8 +104,6 @@
       width: 38px;
       height: 38px;
       border-radius: 999px;
-      background-image:
-        url("CSARlogo.png?auto=compress&cs=tinysrgb&w=1200&q=80");
       display: flex;
       align-items: center;
       justify-content: center;
@@ -117,11 +115,15 @@
     }
 
 	.brand-mark-img {
-	  width: 50px;           /* Adjust this to match your header size */
-	  height: 50px;          /* Keep height/width equal */
-	  border-radius: 50%;    /* Makes the image a circle */
-	  object-fit: cover;     /* Ensures the image doesn't look squished */
-	  display: block;        /* Removes extra bottom spacing */
+	  width: 85px;
+	  height: 85px;
+	  border-radius: 50%;
+	  object-fit: contain;      /* Changed from 'cover' to 'contain' to prevent cropping */
+	  display: block;
+	  
+	  /* High-quality scaling properties */
+	  image-rendering: -webkit-optimize-contrast; /* For Safari/Chrome */
+	  image-rendering: crisp-edges;               /* For Firefox */
 	}
 	
     .brand-mark:hover {
@@ -822,7 +824,7 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="brand">
-		<img src="your-logo-file.png" alt="Cochrane Search & Rescue" class="brand-mark-img">
+		<img src="CSARlogo.png" alt="Cochrane Search & Rescue" class="brand-mark-img">
         <div class="brand-text-wrap">
           <span class="brand-text-main">Cochrane Search &amp; Rescue</span>
           <span class="brand-text-sub">Serving Cochrane and nearby communities since 2001.</span>
