@@ -818,6 +818,28 @@
         grid-template-columns: minmax(0, 1fr);
       }
     }
+	
+	@media (max-width: 760px) {
+	  .nav.active {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		background: white;
+		padding: 1.5rem;
+		border-bottom: 1px solid var(--border);
+		gap: 1rem;
+		box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+	  }
+
+	  /* Animates the hamburger into an 'X' */
+	  .hamburger.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+	  .hamburger.active span:nth-child(2) { opacity: 0; }
+	  .hamburger.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+	}
+
   </style>
 </head>
 <body>
@@ -1134,17 +1156,30 @@
     </div>
   </footer>
 
-  <script>
-    // Footer year
-    document.getElementById("year").textContent = new Date().getFullYear();
+	<script>
+	  // Footer year
+	  document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Simple on-load animation trigger (already using CSS animations with initial state)
-    window.addEventListener("load", () => {
-      document.querySelectorAll(".animate-fade-up, .animate-fade, .animate-scale")
-        .forEach(el => {
-          el.style.willChange = "transform, opacity";
-        });
-    });
-  </script>
+	  // Mobile Menu Logic
+	  const hamburger = document.querySelector(".hamburger");
+	  const nav = document.querySelector(".nav");
+	  const navLinks = document.querySelectorAll(".nav a");
+
+	  function toggleMenu() {
+		hamburger.classList.toggle("active");
+		nav.classList.toggle("active");
+	  }
+
+	  // Toggle on click
+	  hamburger.addEventListener("click", toggleMenu);
+
+	  // Close menu when a link is clicked
+	  navLinks.forEach(link => {
+		link.addEventListener("click", () => {
+		  hamburger.classList.remove("active");
+		  nav.classList.remove("active");
+		});
+	  });
+	</script>
 </body>
 </html>
