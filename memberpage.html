@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cochrane SAR – Member Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --blue: #1e3a8a;
+      --blue-dark: #0f172a;
+      --blue-light: #e5edff;
+      --orange: #f97316;
+      --bg: #f3f4f6;
+      --text: #111827;
+      --muted: #6b7280;
+      --radius: 10px;
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: #0b1120;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at top left, #1e3a8a 0, #020617 55%);
+    }
+
+    /* Top bar */
+    .topbar {
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      backdrop-filter: blur(10px);
+      background: rgba(15, 23, 42, 0.92);
+      color: #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0b1120;
+    }
+
+    .brand-text {
+      font-weight: 600;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .topbar-search {
+      flex: 1;
+      max-width: 360px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.45rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e5e7eb;
+      font-size: 0.85rem;
+    }
+
+    .search-input::placeholder {
+      color: #6b7280;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .icon-pill {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #1e3a8a, #0ea5e9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-logout {
+      background: var(--orange);
+      color: #0b1120;
+      border-color: rgba(15, 23, 42, 0.1);
+      box-shadow: 0 12px 28px rgba(249, 115, 22, 0.4);
+    }
+
+    .btn-logout:hover {
+      background: #ea580c;
+      transform: translateY(-1px);
+    }
+
+    /* Shell layout */
+    .app-main {
+      display: flex;
+      flex: 1;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      width: 100%;
+      padding: 1.25rem 1.5rem 1.75rem;
+      gap: 1.25rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      min-width: 200px;
+      background: rgba(15, 23, 42, 0.94);
+      border-radius: 16px;
+      padding: 1rem 0.75rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.75);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: fit-content;
+      position: sticky;
+      top: 3.4rem;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #64748b;
+      padding: 0 0.5rem;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-top: 0.25rem;
+    }
+
+    .nav-item {
+      border-radius: 999px;
+      padding: 0.4rem 0.55rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.85rem;
+      color: #cbd5f5;
+      cursor: pointer;
+      transition: background 0.12s ease, color 0.12s ease, transform 0.08s ease;
+    }
+
+    .nav-item-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, #1e3a8a, #0ea5e9);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.6);
+    }
+
+    .nav-item.active .nav-item-icon {
+      border-color: rgba(255, 255, 255, 0.7);
+      background: rgba(15, 23, 42, 0.15);
+    }
+
+    .nav-label {
+      flex: 1;
+    }
+
+    .sidebar-footer {
+      padding: 0.5rem 0.5rem 0;
+      border-top: 1px dashed rgba(51, 65, 85, 0.9);
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+
+    /* Main content area */
+    .content {
+      flex: 1;
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.45), rgba(15, 23, 42, 0.98) 45%);
+      border-radius: 18px;
+      padding: 1.25rem 1.3rem 1.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 28px 70px rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .content-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .content-subtitle {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #9ca3af;
+    }
+
+    /* Welcome banner */
+    .welcome {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .welcome-main-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .welcome-text {
+      font-size: 0.85rem;
+      color: #cbd5f5;
+    }
+
+    .welcome-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .welcome-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+    }
+
+    .welcome-highlight-label {
+      color: #9ca3af;
+    }
+
+    .welcome-highlight-value {
+      font-weight: 600;
+    }
+
+    .progress-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 999px;
+      background: conic-gradient(#f97316 0 270deg, rgba(30, 64, 175, 0.4) 270deg 360deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+    }
+
+    .progress-inner {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #e5e7eb;
+    }
+
+    .progress-inner strong {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .stat-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 12px;
+      padding: 0.75rem 0.85rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-label {
+      color: #9ca3af;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .stat-value {
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: baseline;
+      gap: 0.2rem;
+    }
+
+    .stat-pill {
+      border-radius: 999px;
+      padding: 0.15rem 0.4rem;
+      background: rgba(22, 163, 74, 0.15);
+      color: #bbf7d0;
+      font-size: 0.7rem;
+    }
+
+    .availability-toggle {
+      margin-top: 0.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .toggle-pill {
+      width: 40px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.2);
+      border: 1px solid rgba(22, 163, 74, 0.6);
+      position: relative;
+    }
+
+    .toggle-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: #22c55e;
+      position: absolute;
+      top: 1px;
+      left: 21px;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.7);
+    }
+
+    /* Main grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 0.9rem;
+      align-items: flex-start;
+      margin-top: 0.25rem;
+    }
+
+    .panel {
+      background: rgba(15, 23, 42, 0.94);
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.65);
+      padding: 0.8rem 0.9rem;
+      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    .panel-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .panel-subtitle {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .panel-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 0.2rem 0.55rem;
+      font-size: 0.7rem;
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.8);
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(30, 64, 175, 0.5);
+    }
+
+    /* Hours chart + table */
+    .chart-placeholder {
+      border-radius: 10px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-bottom: 0.6rem;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      color: #e5e7eb;
+    }
+
+    .table th,
+    .table td {
+      padding: 0.35rem 0.1rem;
+      text-align: left;
+    }
+
+    .table th {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+    }
+
+    .table tr:nth-child(even) td {
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .table tr:nth-child(odd) td {
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    .table td {
+      border-bottom: 1px solid rgba(30, 41, 59, 0.7);
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 0.05rem 0.35rem;
+      background: rgba(30, 64, 175, 0.4);
+      color: #bfdbfe;
+    }
+
+    .btn-small {
+      padding: 0.25rem 0.6rem;
+      font-size: 0.68rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e5e7eb;
+      cursor: pointer;
+    }
+
+    .btn-small:hover {
+      background: rgba(30, 64, 175, 0.6);
+    }
+
+    /* Certifications grid */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.55rem;
+      margin-top: 0.3rem;
+    }
+
+    .cert-card {
+      border-radius: 10px;
+      padding: 0.55rem 0.6rem;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.78rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .cert-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .cert-name {
+      font-weight: 600;
+    }
+
+    .cert-status {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 0.05rem 0.4rem;
+    }
+
+    .cert-valid {
+      background: rgba(22, 163, 74, 0.18);
+      color: #bbf7d0;
+    }
+
+    .cert-expiring {
+      background: rgba(234, 179, 8, 0.18);
+      color: #facc15;
+    }
+
+    .cert-expired {
+      background: rgba(220, 38, 38, 0.25);
+      color: #fecaca;
+    }
+
+    .cert-meta {
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    /* Right column: calendar + updates */
+    .calendar {
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 0.6rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.76rem;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.3rem;
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .calendar-nav button {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      font-size: 0.7rem;
+      padding: 0.05rem 0.4rem;
+      cursor: pointer;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.1rem;
+      margin-top: 0.2rem;
+    }
+
+    .cal-cell {
+      min-height: 30px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      padding: 0.1rem 0.15rem;
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .cal-head {
+      font-size: 0.65rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    .cal-date {
+      font-size: 0.65rem;
+      color: #9ca3af;
+    }
+
+    .cal-pill {
+      margin-top: auto;
+      font-size: 0.62rem;
+      border-radius: 999px;
+      padding: 0.02rem 0.25rem;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cal-training {
+      background: rgba(249, 115, 22, 0.2);
+      color: #fed7aa;
+    }
+
+    .cal-callout {
+      background: rgba(220, 38, 38, 0.25);
+      color: #fecaca;
+    }
+
+    .cal-event {
+      background: rgba(59, 130, 246, 0.25);
+      color: #bfdbfe;
+    }
+
+    .availability-panel {
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 0.65rem;
+      font-size: 0.78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .availability-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .availability-status {
+      font-weight: 600;
+    }
+
+    .availability-note {
+      font-size: 0.72rem;
+      color: #9ca3af;
+    }
+
+    .updates {
+      margin-top: 0.65rem;
+      font-size: 0.78rem;
+    }
+
+    .update-item {
+      border-radius: 10px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background: rgba(15, 23, 42, 0.85);
+      padding: 0.5rem 0.55rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .update-meta {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      margin-bottom: 0.15rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.3rem;
+    }
+
+    .update-title {
+      font-weight: 500;
+      margin-bottom: 0.1rem;
+    }
+
+    .update-body {
+      font-size: 0.76rem;
+      color: #cbd5f5;
+    }
+
+    .updates-footer {
+      font-size: 0.72rem;
+      color: #93c5fd;
+      margin-top: 0.1rem;
+      text-align: right;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .app-main {
+        padding-inline: 1rem;
+      }
+      .welcome {
+        grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      }
+      .welcome-meta {
+        grid-column: span 2;
+      }
+      .stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .main-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 800px) {
+      .app-main {
+        flex-direction: column;
+      }
+      .sidebar {
+        position: static;
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        border-radius: 12px;
+      }
+      .nav-list {
+        flex-direction: row;
+        flex-wrap: nowrap;
+      }
+      .nav-item {
+        padding-inline: 0.7rem;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar-inner {
+        padding-inline: 1rem;
+      }
+      .topbar-search {
+        display: none;
+      }
+      .welcome {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .progress-circle {
+        margin: 0;
+      }
+      .stats-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cert-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .calendar-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="topbar-left">
+          <div class="brand-mark">CS</div>
+          <div class="brand-text">Cochrane SAR – Member</div>
+        </div>
+        <div class="topbar-search">
+          <input
+            type="search"
+            class="search-input"
+            placeholder="Search hours, trainings, events…"
+          />
+        </div>
+        <div class="topbar-right">
+          <div class="icon-pill" title="Notifications">🔔</div>
+          <div class="avatar" title="Profile">JD</div>
+          <button class="btn btn-logout">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div>
+          <div class="sidebar-section-title">Navigation</div>
+          <ul class="nav-list">
+            <li class="nav-item active">
+              <div class="nav-item-icon">🏠</div>
+              <span class="nav-label">Dashboard</span>
+            </li>
+            <li class="nav-item">
+              <div class="nav-item-icon">⏱</div>
+              <span class="nav-label">Hours Log</span>
+            </li>
+            <li class="nav-item">
+              <div class="nav-item-icon">🎓</div>
+              <span class="nav-label">Certifications</span>
+            </li>
+            <li class="nav-item">
+              <div class="nav-item-icon">📅</div>
+              <span class="nav-label">Calendar</span>
+            </li>
+            <li class="nav-item">
+              <div class="nav-item-icon">💬</div>
+              <span class="nav-label">Team Chat</span>
+            </li>
+            <li class="nav-item">
+              <div class="nav-item-icon">⚙️</div>
+              <span class="nav-label">Settings</span>
+            </li>
+          </ul>
+        </div>
+        <div class="sidebar-footer">
+          <div>Logged in as: John Doe</div>
+          <div>Member since 2021</div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <section class="content">
+        <header class="content-header">
+          <div>
+            <div class="content-title">Dashboard</div>
+            <div class="content-subtitle">
+              Overview of your hours, training, certifications, and upcoming events.
+            </div>
+          </div>
+          <div class="badge">Member area</div>
+        </header>
+
+        <!-- Welcome banner -->
+        <section class="welcome">
+          <div>
+            <div class="welcome-main-title">Hi John, thanks for being on call.</div>
+            <p class="welcome-text">
+              Stay current on your hours, keep certifications up to date, and
+              confirm your availability for upcoming searches and trainings.
+            </p>
+          </div>
+          <div class="welcome-meta">
+            <div>
+              <span class="welcome-highlight-label">This year’s hours</span>
+              <div class="welcome-highlight-value">45 hrs logged / 40 hr minimum</div>
+            </div>
+            <div>
+              <span class="welcome-highlight-label">Next up</span>
+              <div class="welcome-highlight-value">
+                Avalanche safety training – Sat Mar 21, 09:00
+              </div>
+            </div>
+          </div>
+          <div class="welcome-highlights">
+            <div class="progress-circle">
+              <div class="progress-inner">
+                <strong>112%</strong>
+                <span>of annual</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats row -->
+        <section class="stats-row">
+          <article class="stat-card">
+            <div class="stat-label">Hours YTD</div>
+            <div class="stat-value">
+              45 <span class="stat-pill">Goal 40</span>
+            </div>
+            <div style="font-size:0.75rem; color:#9ca3af;">
+              You are ahead of the annual participation minimum.
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Upcoming events</div>
+            <div class="stat-value">3</div>
+            <div style="font-size:0.75rem; color:#9ca3af;">
+              Next: Training Wed 18:30 · Callout standby Thu.
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Certs expiring</div>
+            <div class="stat-value">
+              1 <span style="font-size:0.7rem; color:#facc15;">action needed</span>
+            </div>
+            <div style="font-size:0.75rem; color:#9ca3af;">
+              Standard First Aid expires Mar 2027.
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Availability</div>
+            <div class="availability-toggle">
+              <div class="toggle-pill">
+                <div class="toggle-thumb"></div>
+              </div>
+              <span style="font-size:0.8rem;">Available for callout</span>
+            </div>
+            <div style="font-size:0.72rem; color:#9ca3af; margin-top:0.2rem;">
+              Update status if you will be out of area.
+            </div>
+          </article>
+        </section>
+
+        <!-- Main grid -->
+        <section class="main-grid">
+          <!-- Left column: hours + certs -->
+          <div>
+            <section class="panel">
+              <header class="panel-header">
+                <div>
+                  <div class="panel-title">Hours log</div>
+                  <div class="panel-subtitle">Recent activities and training sessions.</div>
+                </div>
+                <div class="panel-actions">
+                  <button class="btn-small">View all</button>
+                  <button class="btn-small" style="border-color:var(--orange); color:#fed7aa;">
+                    Log hours
+                  </button>
+                </div>
+              </header>
+              <div class="chart-placeholder">
+                Hours chart (last 6 months)
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Activity</th>
+                    <th>Hours</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Mar 09</td>
+                    <td><span class="tag">Training</span></td>
+                    <td>Navigation night exercise</td>
+                    <td>3.0</td>
+                  </tr>
+                  <tr>
+                    <td>Feb 27</td>
+                    <td><span class="tag">Callout</span></td>
+                    <td>Backcountry search – Kananaskis</td>
+                    <td>7.5</td>
+                  </tr>
+                  <tr>
+                    <td>Feb 15</td>
+                    <td><span class="tag">Meeting</span></td>
+                    <td>Monthly team meeting</td>
+                    <td>2.0</td>
+                  </tr>
+                  <tr>
+                    <td>Jan 22</td>
+                    <td><span class="tag">Training</span></td>
+                    <td>First aid refresher</td>
+                    <td>4.0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section class="panel" style="margin-top:0.9rem;">
+              <header class="panel-header">
+                <div>
+                  <div class="panel-title">My certifications</div>
+                  <div class="panel-subtitle">Status of key SAR certifications.</div>
+                </div>
+                <div class="panel-actions">
+                  <button class="btn-small">View training plan</button>
+                </div>
+              </header>
+              <div class="cert-grid">
+                <article class="cert-card">
+                  <div class="cert-header">
+                    <div class="cert-name">GSAR Basics</div>
+                    <span class="cert-status cert-valid">Valid</span>
+                  </div>
+                  <div class="cert-meta">
+                    SARVAC / SAR Alberta · Expires: Dec 2028
+                  </div>
+                </article>
+                <article class="cert-card">
+                  <div class="cert-header">
+                    <div class="cert-name">Standard First Aid</div>
+                    <span class="cert-status cert-expiring">Expiring</span>
+                  </div>
+                  <div class="cert-meta">
+                    Red Cross · Expires: Mar 2027
+                  </div>
+                </article>
+                <article class="cert-card">
+                  <div class="cert-header">
+                    <div class="cert-name">ICS-100</div>
+                    <span class="cert-status cert-valid">Valid</span>
+                  </div>
+                  <div class="cert-meta">
+                    Incident Command System Canada
+                  </div>
+                </article>
+                <article class="cert-card">
+                  <div class="cert-header">
+                    <div class="cert-name">Rope Rescue Level 1</div>
+                    <span class="cert-status cert-valid">Valid</span>
+                  </div>
+                  <div class="cert-meta">
+                    Expires: Aug 2029
+                  </div>
+                </article>
+                <article class="cert-card">
+                  <div class="cert-header">
+                    <div class="cert-name">Team Leader</div>
+                    <span class="cert-status cert-valid">Active</span>
+                  </div>
+                  <div class="cert-meta">
+                    Assigned to Ground Team 2
+                  </div>
+                </article>
+                <article class="cert-card">
+                  <div class="cert-header">
+                    <div class="cert-name">Avalanche Safety</div>
+                    <span class="cert-status cert-expired">Expired</span>
+                  </div>
+                  <div class="cert-meta">
+                    AST1 · Needs renewal
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+
+          <!-- Right column: calendar + availability + updates -->
+          <div>
+            <section class="calendar">
+              <div class="calendar-header">
+                <div>
+                  <div style="font-size:0.8rem; font-weight:600;">This week</div>
+                  <div style="font-size:0.72rem; color:#9ca3af;">Mar 9 – Mar 15</div>
+                </div>
+                <div class="calendar-nav">
+                  <button>&lt;</button>
+                  <button>&gt;</button>
+                </div>
+              </div>
+              <div class="calendar-grid">
+                <div class="cal-head">Mon</div>
+                <div class="cal-head">Tue</div>
+                <div class="cal-head">Wed</div>
+                <div class="cal-head">Thu</div>
+                <div class="cal-head">Fri</div>
+                <div class="cal-head">Sat</div>
+                <div class="cal-head">Sun</div>
+
+                <div class="cal-cell">
+                  <span class="cal-date">9</span>
+                  <span class="cal-pill cal-training">Nav training</span>
+                </div>
+                <div class="cal-cell">
+                  <span class="cal-date">10</span>
+                </div>
+                <div class="cal-cell">
+                  <span class="cal-date">11</span>
+                  <span class="cal-pill cal-event">Team mtg</span>
+                </div>
+                <div class="cal-cell">
+                  <span class="cal-date">12</span>
+                  <span class="cal-pill cal-callout">On-call</span>
+                </div>
+                <div class="cal-cell">
+                  <span class="cal-date">13</span>
+                </div>
+                <div class="cal-cell">
+                  <span class="cal-date">14</span>
+                  <span class="cal-pill cal-training">Rope drill</span>
+                </div>
+                <div class="cal-cell">
+                  <span class="cal-date">15</span>
+                  <span class="cal-pill cal-event">Fundraiser</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="availability-panel">
+              <div class="availability-text">
+                <div class="availability-status">You are marked as available.</div>
+                <div class="availability-note">
+                  Toggle if you are out of town or unavailable for the next 24–72 hours.
+                </div>
+              </div>
+              <div class="availability-toggle">
+                <div class="toggle-pill">
+                  <div class="toggle-thumb"></div>
+                </div>
+                <span style="font-size:0.75rem;">Available</span>
+              </div>
+            </section>
+
+            <section class="updates">
+              <div class="panel-header" style="margin-bottom:0.3rem;">
+                <div>
+                  <div class="panel-title">Team updates</div>
+                  <div class="panel-subtitle">Latest messages from coordinators.</div>
+                </div>
+                <div class="panel-actions">
+                  <button class="btn-small">Open chat</button>
+                </div>
+              </div>
+              <article class="update-item">
+                <div class="update-meta">
+                  <span>Coordinator · Today 08:15</span>
+                  <span>Training</span>
+                </div>
+                <div class="update-title">Navigation night moved to Thursday.</div>
+                <div class="update-body">
+                  Please update your availability if you cannot attend the new date.
+                </div>
+              </article>
+              <article class="update-item">
+                <div class="update-meta">
+                  <span>Fundraising · Mar 10</span>
+                  <span>Event</span>
+                </div>
+                <div class="update-title">Volunteers needed for community event.</div>
+                <div class="update-body">
+                  Looking for 6 members to help staff our information booth on Saturday.
+                </div>
+              </article>
+              <article class="update-item">
+                <div class="update-meta">
+                  <span>Training · Mar 8</span>
+                  <span>Reminder</span>
+                </div>
+                <div class="update-title">First aid recert sign-up.</div>
+                <div class="update-body">
+                  Sign up in the training portal if your first aid expires this year.
+                </div>
+              </article>
+              <div class="updates-footer">View all updates →</div>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
